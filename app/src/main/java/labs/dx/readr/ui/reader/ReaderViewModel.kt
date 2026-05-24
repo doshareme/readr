@@ -39,6 +39,8 @@ import labs.dx.core.domain.usecase.ObserveReadingProgressUseCase
 import labs.dx.core.domain.usecase.OpenPdfDocumentUseCase
 import labs.dx.core.domain.usecase.SaveReadingProgressUseCase
 import labs.dx.core.domain.usecase.UpdatePdfHistoryCoverUseCase
+import labs.dx.readr.ai.OpenRouterSummarizer
+import labs.dx.readr.onboarding.OnboardingRepository
 
 @HiltViewModel
 class ReaderViewModel @Inject constructor(
@@ -49,7 +51,9 @@ class ReaderViewModel @Inject constructor(
     private val observeReadingProgress: ObserveReadingProgressUseCase,
     private val saveReadingProgress: SaveReadingProgressUseCase,
     private val updatePdfHistoryCover: UpdatePdfHistoryCoverUseCase,
-    private val narrationController: NarrationController
+    private val narrationController: NarrationController,
+    private val onboardingRepository: OnboardingRepository,
+    private val openRouterSummarizer: OpenRouterSummarizer
 ) : AndroidViewModel(app) {
 
     private val _uiState = MutableStateFlow(ReaderUiState())
@@ -64,6 +68,8 @@ class ReaderViewModel @Inject constructor(
     private val renderRequests = mutableMapOf<String, kotlinx.coroutines.Deferred<Bitmap?>>()
     private var totalWordCountJob: Job? = null
     private var session: PdfDocumentSession? = null
+    private var summarySession: PdfDocumentSession? = null
+    private var preparedNarrationSource: NarrationSource = NarrationSource.DOCUMENT
     private val documentUri: String = checkNotNull(savedStateHandle["uri"])
 
     init {
@@ -114,13 +120,17 @@ class ReaderViewModel @Inject constructor(
                                 _uiState.value = _uiState.value.copy(error = ttsResult.error)
                             }
                             is labs.dx.core.domain.repository.TtsInitializationResult.Success -> {
-                                val normalizedSettings = narrationController.settings.value
+                                val normalizedSettings = narrationController.settings.value.copy(
+                                    cloudVoice = onboardingRepository.voicePreferences.value
+                                )
                                 narrationController.updateSettings(normalizedSettings)
                                 narrationController.prepare(openResult.session)
+                                preparedNarrationSource = NarrationSource.DOCUMENT
                                 _uiState.value = _uiState.value.copy(
                                     voices = ttsResult.voices,
                                     settings = normalizedSettings
                                 )
+                                bindTotalWordCount(openResult.session)
                             }
                         }
                     }
@@ -166,6 +176,11 @@ class ReaderViewModel @Inject constructor(
 
     fun onPlayPauseTapped() {
         viewModelScope.launch {
+            val restoredDocumentPlayback = prepareDocumentNarrationIfNeeded()
+            if (restoredDocumentPlayback) {
+                narrationController.play(_uiState.value.savedWordIndex)
+                return@launch
+            }
             when (val playbackState = _uiState.value.playbackState) {
                 is PlaybackState.Playing -> narrationController.pause()
                 is PlaybackState.Preparing -> narrationController.stop()
@@ -180,6 +195,7 @@ class ReaderViewModel @Inject constructor(
     fun onStopTapped() {
         viewModelScope.launch {
             narrationController.stop()
+            _uiState.value = _uiState.value.copy(isSummaryPlaybackActive = false)
         }
     }
 
@@ -193,6 +209,7 @@ class ReaderViewModel @Inject constructor(
 
     fun onWordDoubleTapped(pageIndex: Int, normalizedTapX: Float, normalizedTapY: Float) {
         viewModelScope.launch {
+            prepareDocumentNarrationIfNeeded()
             val pageInfo = session?.getPageInfo(pageIndex) ?: return@launch
             val pdfX = normalizedTapX * pageInfo.widthPoints
             val pdfY = normalizedTapY * pageInfo.heightPoints
@@ -235,6 +252,7 @@ class ReaderViewModel @Inject constructor(
 
     fun updateResearchPaperMode(enabled: Boolean) {
         viewModelScope.launch {
+            prepareDocumentNarrationIfNeeded()
             session?.setResearchPaperMode(enabled)
             val updatedSettings = _uiState.value.settings.copy(researchPaperMode = enabled)
             narrationController.updateSettings(updatedSettings)
@@ -246,6 +264,74 @@ class ReaderViewModel @Inject constructor(
             )
             narrationController.stop()
             session?.requestPageAnalysis(pageIndex = 0, urgent = enabled, resetQueue = enabled)
+        }
+    }
+
+    fun updateStoryMode(enabled: Boolean) {
+        viewModelScope.launch {
+            val updatedSettings = _uiState.value.settings.copy(
+                storyMode = enabled,
+                useCloudTts = if (enabled) true else _uiState.value.settings.useCloudTts,
+                voiceName = if (enabled) null else _uiState.value.settings.voiceName,
+                localeTag = if (enabled) null else _uiState.value.settings.localeTag
+            )
+            narrationController.updateSettings(updatedSettings)
+            _uiState.value = _uiState.value.copy(settings = updatedSettings)
+        }
+    }
+
+    fun onSummarizeTapped() {
+        viewModelScope.launch {
+            val activeSession = session ?: return@launch
+            _uiState.value = _uiState.value.copy(
+                isSummaryLoading = true,
+                summaryError = null
+            )
+            val text = extractDocumentText(activeSession)
+            val result = openRouterSummarizer.summarize(text)
+            _uiState.value = if (result.isSuccess) {
+                _uiState.value.copy(
+                    isSummaryLoading = false,
+                    summaryText = result.getOrThrow(),
+                    summaryError = null
+                )
+            } else {
+                _uiState.value.copy(
+                    isSummaryLoading = false,
+                    summaryError = result.exceptionOrNull()?.message ?: "Unable to summarize this document."
+                )
+            }
+        }
+    }
+
+    fun onPlaySummaryTapped() {
+        viewModelScope.launch {
+            val text = _uiState.value.summaryText?.takeIf { it.isNotBlank() } ?: return@launch
+            val document = _uiState.value.document ?: return@launch
+            narrationController.stop()
+            val summary = SummaryDocumentSession(document, text)
+            summarySession?.close()
+            summarySession = summary
+            val updatedSettings = _uiState.value.settings.copy(
+                useCloudTts = true,
+                voiceName = null,
+                localeTag = null
+            )
+            narrationController.updateSettings(updatedSettings)
+            narrationController.prepare(summary)
+            preparedNarrationSource = NarrationSource.SUMMARY
+            _uiState.value = _uiState.value.copy(
+                settings = updatedSettings,
+                isSummaryPlaybackActive = true
+            )
+            narrationController.play(0)
+        }
+    }
+
+    fun onStopSummaryTapped() {
+        viewModelScope.launch {
+            narrationController.stop()
+            _uiState.value = _uiState.value.copy(isSummaryPlaybackActive = false)
         }
     }
 
@@ -263,19 +349,36 @@ class ReaderViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    private fun bindTotalWordCount(activeSession: PdfDocumentSession) {
+        totalWordCountJob?.cancel()
+        totalWordCountJob = viewModelScope.launch {
+            val total = withContext(Dispatchers.Default) { activeSession.getTotalWordCount() }
+            if (session === activeSession) {
+                _uiState.value = _uiState.value.copy(totalWordCount = total)
+            }
+        }
+    }
+
     private fun bindPlaybackState() {
         narrationController.playbackState
             .combine(narrationController.currentHighlight) { playback, highlight ->
                 playback to highlight
             }
             .onEach { (playback, highlight) ->
+                val source = preparedNarrationSource
+                val documentHighlight = highlight.takeIf { source == NarrationSource.DOCUMENT }
+                val summaryActive = source == NarrationSource.SUMMARY &&
+                    playback !is PlaybackState.Completed &&
+                    playback !is PlaybackState.Idle &&
+                    playback !is PlaybackState.Stopped
                 _uiState.value = _uiState.value.copy(
                     playbackState = playback,
-                    currentHighlight = highlight,
+                    currentHighlight = documentHighlight,
                     settings = narrationController.settings.value,
-                    voices = narrationController.availableVoices.value
+                    voices = narrationController.availableVoices.value,
+                    isSummaryPlaybackActive = summaryActive
                 )
-                val currentWord = highlight?.word ?: return@onEach
+                val currentWord = documentHighlight?.word ?: return@onEach
                 session?.requestPageAnalysis(pageIndex = currentWord.pageIndex, urgent = true)
                 session?.prefetchPageAnalysis(anchorPageIndex = currentWord.pageIndex)
                 saveReadingProgress(
@@ -290,6 +393,39 @@ class ReaderViewModel @Inject constructor(
                 )
             }
             .launchIn(viewModelScope)
+    }
+
+    private suspend fun prepareDocumentNarrationIfNeeded(): Boolean {
+        if (preparedNarrationSource == NarrationSource.DOCUMENT) return false
+        val activeSession = session ?: return false
+        narrationController.stop()
+        narrationController.prepare(activeSession)
+        preparedNarrationSource = NarrationSource.DOCUMENT
+        _uiState.value = _uiState.value.copy(
+            currentHighlight = null,
+            isSummaryPlaybackActive = false
+        )
+        return true
+    }
+
+    private suspend fun extractDocumentText(activeSession: PdfDocumentSession): String = withContext(Dispatchers.Default) {
+        buildString {
+            for (pageIndex in 0 until activeSession.documentInfo.pageCount) {
+                val words = activeSession.getWordsForPage(pageIndex)
+                if (words.isEmpty()) continue
+                if (isNotEmpty()) append("\n\n")
+                var lastParagraph: Int? = null
+                words.forEachIndexed { index, word ->
+                    if (lastParagraph != null && word.paragraphIndex != lastParagraph) {
+                        append("\n\n")
+                    } else if (index > 0) {
+                        append(' ')
+                    }
+                    append(word.text)
+                    lastParagraph = word.paragraphIndex
+                }
+            }
+        }
     }
 
     private suspend fun saveDocumentCover(documentId: String, session: PdfDocumentSession) {
@@ -321,12 +457,16 @@ class ReaderViewModel @Inject constructor(
         pageBitmapCache.evictAll()
         runCatching { session?.close() }
         session = null
+        runCatching { summarySession?.close() }
+        summarySession = null
+        preparedNarrationSource = NarrationSource.DOCUMENT
         narrationController.release()
         _uiState.value = ReaderUiState()
     }
 
     private fun seekByBoundary(direction: Int, useParagraphs: Boolean) {
         viewModelScope.launch {
+            prepareDocumentNarrationIfNeeded()
             val startIndex = _uiState.value.currentHighlight?.word?.globalWordIndex ?: _uiState.value.savedWordIndex
             var candidate = session?.getWordByGlobalIndex(startIndex) ?: return@launch
             val sourceBoundary = if (useParagraphs) candidate.paragraphIndex else candidate.sentenceIndex
@@ -355,4 +495,9 @@ class ReaderViewModel @Inject constructor(
             narrationController.seekToWord(candidate.globalWordIndex, autoPlay = true)
         }
     }
+}
+
+private enum class NarrationSource {
+    DOCUMENT,
+    SUMMARY
 }

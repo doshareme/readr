@@ -42,6 +42,11 @@ android {
             "RUMIK_API_KEY",
             "\"${readSecretValue("RUMIK_API_KEY", "SILK_API_KEY").replace("\\", "\\\\").replace("\"", "\\\"")}\""
         )
+        buildConfigField(
+            "String",
+            "FREESOUND_API_TOKEN",
+            "\"${readSecretValue("FREESOUND_API_TOKEN").ifBlank { "Zeb1CBEfjHE8h4TYOtGQV7WyUp7IaDAi8d0RWEcg" }.replace("\\", "\\\\").replace("\"", "\\\"")}\""
+        )
     }
 
     compileOptions {

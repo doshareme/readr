@@ -6,6 +6,31 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+fun readSecretValue(vararg keys: String): String {
+    val environmentValue = keys.firstNotNullOfOrNull { key ->
+        System.getenv(key)?.takeIf { it.isNotBlank() }
+    }
+    if (environmentValue != null) return environmentValue
+
+    val files = listOf("local.properties", ".env", ",env")
+    val values = files
+        .map(rootProject::file)
+        .filter { it.exists() }
+        .flatMap { it.readLines() }
+        .mapNotNull { line ->
+            val trimmed = line.trim()
+            if (trimmed.isBlank() || trimmed.startsWith("#") || !trimmed.contains("=")) {
+                null
+            } else {
+                val key = trimmed.substringBefore("=").trim()
+                val value = trimmed.substringAfter("=").trim().trim('"', '\'')
+                key to value
+            }
+        }
+        .toMap()
+    return keys.firstNotNullOfOrNull { key -> values[key]?.takeIf { it.isNotBlank() } }.orEmpty()
+}
+
 android {
     namespace = "labs.dx.readr"
     compileSdk = 36
@@ -18,6 +43,11 @@ android {
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField(
+            "String",
+            "OPENROUTER_API_KEY",
+            "\"${readSecretValue("OPENROUTER_API_KEY", "OPEN_ROUTER_API_KEY").replace("\\", "\\\\").replace("\"", "\\\"")}\""
+        )
     }
 
     buildTypes {
@@ -79,6 +109,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.okhttp)
 
     ksp(libs.hilt.compiler)
 

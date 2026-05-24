@@ -50,6 +50,7 @@ class NarrationPlaybackController @Inject constructor(
     private val playbackMutex = Mutex()
     private var session: PdfDocumentSession? = null
     private var activeChunk: UtteranceChunk? = null
+    private var queuedChunk: UtteranceChunk? = null
     private var lastStableWordIndex: Int = 0
     private var supportsRangeCallbacks: Boolean = false
     private var eventJob: Job? = null
@@ -77,6 +78,7 @@ class NarrationPlaybackController @Inject constructor(
         playbackMutex.withLock {
             this.session = session
             activeChunk = null
+            queuedChunk = null
             _currentHighlight.value = null
             _currentWordIndex.value = null
             lastStableWordIndex = 0
@@ -100,6 +102,7 @@ class NarrationPlaybackController @Inject constructor(
             }
             lastStableWordIndex = chunk.words.first().globalWordIndex
             activeChunk = chunk
+            queuedChunk = null
             _currentWordIndex.value = lastStableWordIndex
             _currentHighlight.value = NarrationHighlight(chunk.words.first(), HighlightMode.CHUNK)
             _playbackState.value = PlaybackState.Preparing
@@ -118,6 +121,7 @@ class NarrationPlaybackController @Inject constructor(
         playbackMutex.withLock {
             ttsEngine.stop()
             nextParagraphPrefetchJob?.cancel()
+            queuedChunk = null
             _playbackState.value = PlaybackState.Paused(lastStableWordIndex)
         }
     }
@@ -130,6 +134,7 @@ class NarrationPlaybackController @Inject constructor(
         playbackMutex.withLock {
             ttsEngine.stop()
             nextParagraphPrefetchJob?.cancel()
+            queuedChunk = null
             _playbackState.value = PlaybackState.Stopped(lastStableWordIndex)
         }
     }
@@ -139,6 +144,7 @@ class NarrationPlaybackController @Inject constructor(
             lastStableWordIndex = globalWordIndex
             ttsEngine.stop()
             nextParagraphPrefetchJob?.cancel()
+            queuedChunk = null
             val word = session?.getWordByGlobalIndex(globalWordIndex)
             _currentWordIndex.value = globalWordIndex
             _currentHighlight.value = word?.let { NarrationHighlight(it, HighlightMode.CHUNK) }
@@ -155,6 +161,7 @@ class NarrationPlaybackController @Inject constructor(
             nextParagraphPrefetchJob?.cancel()
             nextParagraphPrefetchJob = null
             activeChunk = null
+            queuedChunk = null
             val word = session?.getWordByGlobalIndex(globalWordIndex)
             _currentWordIndex.value = globalWordIndex
             _currentHighlight.value = word?.let { NarrationHighlight(it, HighlightMode.CHUNK) }
@@ -201,6 +208,7 @@ class NarrationPlaybackController @Inject constructor(
         nextParagraphPrefetchJob?.cancel()
         session = null
         activeChunk = null
+        queuedChunk = null
         ttsEngine.shutdown()
     }
 
@@ -208,10 +216,28 @@ class NarrationPlaybackController @Inject constructor(
         scope.launch {
             when (event) {
                 is TtsEvent.Started -> {
-                    val firstWord = activeChunk?.words?.firstOrNull() ?: return@launch
+                    if (activeChunk?.utteranceId != event.utteranceId) {
+                        queuedChunk
+                            ?.takeIf { it.utteranceId == event.utteranceId }
+                            ?.let { nextChunk ->
+                                activeChunk = nextChunk
+                                queuedChunk = null
+                            }
+                    }
+                    val firstWord = activeChunk
+                        ?.takeIf { it.utteranceId == event.utteranceId }
+                        ?.words
+                        ?.firstOrNull()
+                        ?: return@launch
+                    lastStableWordIndex = firstWord.globalWordIndex
                     _currentHighlight.value = NarrationHighlight(firstWord, HighlightMode.CHUNK)
                     _currentWordIndex.value = firstWord.globalWordIndex
                     _playbackState.value = PlaybackState.Playing(firstWord.globalWordIndex)
+                }
+
+                is TtsEvent.NeedsNext -> {
+                    val chunk = activeChunk?.takeIf { it.utteranceId == event.utteranceId } ?: return@launch
+                    queueNextChunkAfter(chunk)
                 }
 
                 is TtsEvent.Range -> {
@@ -229,6 +255,9 @@ class NarrationPlaybackController @Inject constructor(
 
                 is TtsEvent.Done -> {
                     val nextWordIndex = activeChunk?.words?.lastOrNull()?.globalWordIndex?.plus(1)
+                    if (queuedChunk != null) {
+                        return@launch
+                    }
                     activeChunk = null
                     if (nextWordIndex == null) {
                         _playbackState.value = PlaybackState.Completed
@@ -266,6 +295,24 @@ class NarrationPlaybackController @Inject constructor(
             chunker.buildChunk(startWordIndex) { index ->
                 activeSession.getWordByGlobalIndex(index)
             }
+        }
+    }
+
+    private suspend fun queueNextChunkAfter(chunk: UtteranceChunk) {
+        if (!_settings.value.useCloudTts || queuedChunk != null) return
+        val activeSession = session ?: return
+        val nextChunk = chunker.buildChunk(chunk.words.last().globalWordIndex + 1) { index ->
+            activeSession.getWordByGlobalIndex(index)
+        } ?: return
+        queuedChunk = nextChunk
+        val speakResult = ttsEngine.speak(TtsSpeakRequest(nextChunk.utteranceId, nextChunk.text))
+        if (speakResult.isFailure) {
+            queuedChunk = null
+            _playbackState.value = PlaybackState.Error(
+                speakResult.exceptionOrNull().toReaderError("Unable to queue TTS")
+            )
+        } else {
+            prefetchNextParagraph(nextChunk.words.last().globalWordIndex + 1)
         }
     }
 }

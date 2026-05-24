@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import labs.dx.core.domain.model.CloudVoicePreferences
 import labs.dx.core.domain.model.PdfHistoryEntry
 import labs.dx.core.domain.repository.StorageRepository
 import labs.dx.core.domain.repository.StorageResult
@@ -76,7 +77,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun completeOnboarding() {
-        onboardingRepository.complete()
+    fun completeOnboarding(voicePreferences: CloudVoicePreferences = onboardingRepository.voicePreferences.value) {
+        onboardingRepository.complete(voicePreferences)
     }
 }

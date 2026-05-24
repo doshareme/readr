@@ -18,5 +18,9 @@ data class ReaderUiState(
     val settings: NarrationSettings = NarrationSettings(),
     val savedWordIndex: Int = 0,
     val totalWordCount: Int = 0,
+    val isSummaryLoading: Boolean = false,
+    val summaryText: String? = null,
+    val summaryError: String? = null,
+    val isSummaryPlaybackActive: Boolean = false,
     val error: ReaderError? = null
 )

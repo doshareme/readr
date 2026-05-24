@@ -71,8 +71,8 @@ fun HomeScreen(
     if (state.showOnboarding) {
         OnboardingScreen(
             onSkip = viewModel::completeOnboarding,
-            onPrimaryAction = {
-                viewModel.completeOnboarding()
+            onPrimaryAction = { voicePreferences ->
+                viewModel.completeOnboarding(voicePreferences)
                 launchPicker()
             }
         )

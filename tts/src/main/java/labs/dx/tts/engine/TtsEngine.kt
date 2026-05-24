@@ -12,6 +12,7 @@ data class TtsSpeakRequest(
 
 sealed interface TtsEvent {
     data class Started(val utteranceId: String) : TtsEvent
+    data class NeedsNext(val utteranceId: String) : TtsEvent
     data class Range(val utteranceId: String, val start: Int, val end: Int) : TtsEvent
     data class Done(val utteranceId: String) : TtsEvent
     data class Error(val utteranceId: String?, val error: ReaderError) : TtsEvent

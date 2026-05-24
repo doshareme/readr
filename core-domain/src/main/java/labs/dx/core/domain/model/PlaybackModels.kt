@@ -14,8 +14,30 @@ data class NarrationSettings(
     val voiceName: String? = null,
     val localeTag: String? = null,
     val researchPaperMode: Boolean = false,
-    val useCloudTts: Boolean = false
+    val useCloudTts: Boolean = false,
+    val storyMode: Boolean = false,
+    val cloudVoice: CloudVoicePreferences = CloudVoicePreferences()
 )
+
+data class CloudVoicePreferences(
+    val gender: String = "male",
+    val age: String = "30s",
+    val region: CloudVoiceRegion = CloudVoiceRegion.African
+) {
+    val description: String
+        get() = "a $gender voice in $age with ${region.promptValue} accent and casual speaker with medium intensity at conversational pace"
+}
+
+enum class CloudVoiceRegion(
+    val displayName: String,
+    val promptValue: String
+) {
+    American("American", "american"),
+    European("European", "british"),
+    African("African", "middle_eastern"),
+    Asian("Asian", "asian_american"),
+    Indian("Indian", "Indian")
+}
 
 data class NarrationVoice(
     val voiceName: String,

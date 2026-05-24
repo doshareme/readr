@@ -34,6 +34,7 @@ import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Stop
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -43,6 +44,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.material3.SheetValue
@@ -255,6 +257,10 @@ fun ReaderScreen(
                             onVoiceChange = viewModel::updateVoice,
                             onCloudTtsChanged = viewModel::updateCloudTts,
                             onResearchPaperModeChanged = viewModel::updateResearchPaperMode,
+                            onStoryModeChanged = viewModel::updateStoryMode,
+                            onSummarize = viewModel::onSummarizeTapped,
+                            onPlaySummary = viewModel::onPlaySummaryTapped,
+                            onStopSummary = viewModel::onStopSummaryTapped,
                             onHideControls = {
                                 scope.launch { bottomSheetState.partialExpand() }
                             }
@@ -577,6 +583,10 @@ private fun ReaderControls(
     onVoiceChange: (String) -> Unit,
     onCloudTtsChanged: (Boolean) -> Unit,
     onResearchPaperModeChanged: (Boolean) -> Unit,
+    onStoryModeChanged: (Boolean) -> Unit,
+    onSummarize: () -> Unit,
+    onPlaySummary: () -> Unit,
+    onStopSummary: () -> Unit,
     onHideControls: () -> Unit
 ) {
     var voiceMenuExpanded by remember { mutableStateOf(false) }
@@ -708,6 +718,32 @@ private fun ReaderControls(
             )
         }
         HorizontalDivider()
+        Spacer(Modifier.height(10.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "Story Mode",
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Text(
+                    text = "Adds a 10-second Freesound preview under cloud narration when the text matches a sound cue.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Spacer(Modifier.width(12.dp))
+            Switch(
+                checked = state.settings.storyMode,
+                onCheckedChange = onStoryModeChanged
+            )
+        }
+        HorizontalDivider()
         Spacer(Modifier.height(8.dp))
         if (state.settings.useCloudTts) {
             Text(
@@ -715,7 +751,7 @@ private fun ReaderControls(
                 style = MaterialTheme.typography.titleSmall
             )
             Text(
-                text = "Male voice, 30s, Middle Eastern accent, casual conversational pace.",
+                text = "${state.settings.cloudVoice.gender.replaceFirstChar { it.uppercase() }} voice, ${state.settings.cloudVoice.age}, ${state.settings.cloudVoice.region.displayName} accent, casual conversational pace.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -751,12 +787,108 @@ private fun ReaderControls(
             }
         }
         Spacer(Modifier.height(12.dp))
+        ExecutiveBriefPanel(
+            state = state,
+            onSummarize = onSummarize,
+            onPlaySummary = onPlaySummary,
+            onStopSummary = onStopSummary
+        )
+        Spacer(Modifier.height(12.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
             TextButton(onClick = onHideControls) {
                 Text("Hide Below")
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExecutiveBriefPanel(
+    state: ReaderUiState,
+    onSummarize: () -> Unit,
+    onPlaySummary: () -> Unit,
+    onStopSummary: () -> Unit
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.58f),
+        tonalElevation = 0.dp,
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Executive Brief",
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                    Text(
+                        text = "OpenRouter ${"openai/gpt-oss-20b:free"}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Spacer(Modifier.width(12.dp))
+                Button(
+                    onClick = onSummarize,
+                    enabled = !state.isSummaryLoading && state.documentInfo?.hasExtractableText == true
+                ) {
+                    Text(if (state.summaryText == null) "Summarize" else "Refresh")
+                }
+            }
+            if (state.isSummaryLoading) {
+                Spacer(Modifier.height(10.dp))
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            }
+            state.summaryError?.let { message ->
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = message,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+            state.summaryText?.let { summary ->
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = summary,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(Modifier.height(10.dp))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Button(
+                        onClick = onPlaySummary,
+                        enabled = !state.isSummaryLoading && !state.isSummaryPlaybackActive
+                    ) {
+                        Icon(Icons.Outlined.PlayArrow, contentDescription = null)
+                        Spacer(Modifier.width(6.dp))
+                        Text("Play")
+                    }
+                    OutlinedButton(
+                        onClick = onStopSummary,
+                        enabled = state.isSummaryPlaybackActive
+                    ) {
+                        Icon(Icons.Outlined.Stop, contentDescription = null)
+                        Spacer(Modifier.width(6.dp))
+                        Text("Stop")
+                    }
+                }
             }
         }
     }
