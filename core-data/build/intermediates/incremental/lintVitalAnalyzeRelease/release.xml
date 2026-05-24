@@ -7,7 +7,7 @@
     proguardFiles="build/intermediates/default_proguard_files/global/proguard-android.txt-8.11.2"
     consumerProguardFiles="consumer-rules.pro"
     partialResultsDir="build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
-    desugaredMethodsFiles="/Users/ved/.gradle/caches/8.13/transforms/dc77e3543370b93c949e02edf66a5d8c/transformed/D8BackportedDesugaredMethods.txt">
+    desugaredMethodsFiles="/Users/ved/.gradle/caches/8.13/transforms/8f8ec3f316373e236ff8147271e902a0/transformed/D8BackportedDesugaredMethods.txt">
   <buildFeatures
       namespacing="REQUIRED"/>
   <sourceProviders>
@@ -27,6 +27,6 @@
       applicationId="labs.dx.core.data"
       generatedSourceFolders="build/generated/ksp/release/java:build/generated/ksp/release/kotlin:build/generated/ap_generated_sources/release/out"
       generatedResourceFolders="build/generated/res/resValues/release"
-      desugaredMethodsFiles="/Users/ved/.gradle/caches/8.13/transforms/dc77e3543370b93c949e02edf66a5d8c/transformed/D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="/Users/ved/.gradle/caches/8.13/transforms/8f8ec3f316373e236ff8147271e902a0/transformed/D8BackportedDesugaredMethods.txt">
   </artifact>
 </variant>

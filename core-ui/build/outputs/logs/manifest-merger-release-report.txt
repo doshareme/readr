@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml:2:13-83
-INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml:2:13-83
+ADDED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml:2:13-83
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml:2:13-83
 	package
-		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml
+		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml
 	xmlns:android
-		ADDED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml:2:23-81
+		ADDED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml:2:23-81
 uses-sdk
-INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml reason: use-sdk injection requested
-INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml
-INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml reason: use-sdk injection requested
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml
 	android:targetSdkVersion
-		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml
+		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml
 	android:minSdkVersion
-		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest11097646266140080572.xml
+		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14951359393681461555.xml

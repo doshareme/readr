@@ -4,24 +4,7 @@
             "outputFile": "labs.dx.pdf-release-27:/values-fr/values-fr.xml",
             "map": [
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/2f7c7657d8a172ae9c1d0e81727f1441/transformed/core-1.17.0/res/values-fr/values-fr.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,354,456,560,664,782",
-                        "endColumns": "97,101,98,101,103,103,117,100",
-                        "endOffsets": "148,250,349,451,555,659,777,878"
-                    },
-                    "to": {
-                        "startLines": "29,30,31,32,33,34,35,55",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "2847,2945,3047,3146,3248,3352,3456,6063",
-                        "endColumns": "97,101,98,101,103,103,117,100",
-                        "endOffsets": "2940,3042,3141,3243,3347,3451,3569,6159"
-                    }
-                },
-                {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/afd60b92ddb89119617beca27be8ed80/transformed/play-services-basement-18.4.0/res/values-fr/values.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/370cadce26bd440e52cfde317466e274/transformed/play-services-basement-18.4.0/res/values-fr/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -38,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/72d2fa3371c654c6e4d34a259074f28e/transformed/appcompat-1.6.1/res/values-fr/values-fr.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/425b114d5fc3df2fd49363ea29401aeb/transformed/appcompat-1.6.1/res/values-fr/values-fr.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -55,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/f1b7f84c34752a33ebe483aeb20f461d/transformed/play-services-base-18.5.0/res/values-fr/values.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/6bc9acb0a91cd1f4c6569f2014f1470c/transformed/core-1.17.0/res/values-fr/values-fr.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,255,354,456,560,664,782",
+                        "endColumns": "97,101,98,101,103,103,117,100",
+                        "endOffsets": "148,250,349,451,555,659,777,878"
+                    },
+                    "to": {
+                        "startLines": "29,30,31,32,33,34,35,55",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "2847,2945,3047,3146,3248,3352,3456,6063",
+                        "endColumns": "97,101,98,101,103,103,117,100",
+                        "endOffsets": "2940,3042,3141,3243,3347,3451,3569,6159"
+                    }
+                },
+                {
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/4f499f25220ddfddf090b8e4ef0c8697/transformed/play-services-base-18.5.0/res/values-fr/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -77,24 +77,7 @@
             "outputFile": "labs.dx.pdf-mergeReleaseResources-25:/values-fr/values-fr.xml",
             "map": [
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/2f7c7657d8a172ae9c1d0e81727f1441/transformed/core-1.17.0/res/values-fr/values-fr.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,354,456,560,664,782",
-                        "endColumns": "97,101,98,101,103,103,117,100",
-                        "endOffsets": "148,250,349,451,555,659,777,878"
-                    },
-                    "to": {
-                        "startLines": "29,30,31,32,33,34,35,55",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "2847,2945,3047,3146,3248,3352,3456,6063",
-                        "endColumns": "97,101,98,101,103,103,117,100",
-                        "endOffsets": "2940,3042,3141,3243,3347,3451,3569,6159"
-                    }
-                },
-                {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/afd60b92ddb89119617beca27be8ed80/transformed/play-services-basement-18.4.0/res/values-fr/values.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/370cadce26bd440e52cfde317466e274/transformed/play-services-basement-18.4.0/res/values-fr/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -111,7 +94,7 @@
                     }
                 },
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/72d2fa3371c654c6e4d34a259074f28e/transformed/appcompat-1.6.1/res/values-fr/values-fr.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/425b114d5fc3df2fd49363ea29401aeb/transformed/appcompat-1.6.1/res/values-fr/values-fr.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -128,7 +111,24 @@
                     }
                 },
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/f1b7f84c34752a33ebe483aeb20f461d/transformed/play-services-base-18.5.0/res/values-fr/values.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/6bc9acb0a91cd1f4c6569f2014f1470c/transformed/core-1.17.0/res/values-fr/values-fr.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,255,354,456,560,664,782",
+                        "endColumns": "97,101,98,101,103,103,117,100",
+                        "endOffsets": "148,250,349,451,555,659,777,878"
+                    },
+                    "to": {
+                        "startLines": "29,30,31,32,33,34,35,55",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "2847,2945,3047,3146,3248,3352,3456,6063",
+                        "endColumns": "97,101,98,101,103,103,117,100",
+                        "endOffsets": "2940,3042,3141,3243,3347,3451,3569,6159"
+                    }
+                },
+                {
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/4f499f25220ddfddf090b8e4ef0c8697/transformed/play-services-base-18.5.0/res/values-fr/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",

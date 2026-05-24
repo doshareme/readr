@@ -1,6 +1,7 @@
 package labs.dx.readr.ui.reader
 
 import android.graphics.Bitmap
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -67,6 +68,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -103,6 +105,7 @@ fun ReaderScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
     val pageSizes = remember { mutableStateMapOf<Int, IntSize>() }
     var suppressAutoScroll by remember { mutableStateOf(false) }
     var hasClearedResources by remember { mutableStateOf(false) }
@@ -155,6 +158,13 @@ fun ReaderScreen(
 
     LaunchedEffect(state.error) {
         val error = state.error ?: return@LaunchedEffect
+        Toast.makeText(context, error.toMessage(), Toast.LENGTH_LONG).show()
+        snackbarHostState.showSnackbar(error.toMessage())
+    }
+
+    LaunchedEffect(state.playbackState) {
+        val error = (state.playbackState as? PlaybackState.Error)?.error ?: return@LaunchedEffect
+        Toast.makeText(context, error.toMessage(), Toast.LENGTH_LONG).show()
         snackbarHostState.showSnackbar(error.toMessage())
     }
 
@@ -243,6 +253,7 @@ fun ReaderScreen(
                             onNextParagraph = { viewModel.onSeekParagraph(1) },
                             onRateChange = viewModel::updateSpeechRate,
                             onVoiceChange = viewModel::updateVoice,
+                            onCloudTtsChanged = viewModel::updateCloudTts,
                             onResearchPaperModeChanged = viewModel::updateResearchPaperMode,
                             onHideControls = {
                                 scope.launch { bottomSheetState.partialExpand() }
@@ -564,11 +575,13 @@ private fun ReaderControls(
     onNextParagraph: () -> Unit,
     onRateChange: (Float) -> Unit,
     onVoiceChange: (String) -> Unit,
+    onCloudTtsChanged: (Boolean) -> Unit,
     onResearchPaperModeChanged: (Boolean) -> Unit,
     onHideControls: () -> Unit
 ) {
     var voiceMenuExpanded by remember { mutableStateOf(false) }
     val playing = state.playbackState is PlaybackState.Playing
+    val preparing = state.playbackState is PlaybackState.Preparing
 
     Column(
         modifier = Modifier
@@ -598,10 +611,17 @@ private fun ReaderControls(
                 Icon(Icons.Outlined.NavigateBefore, contentDescription = "Previous sentence")
             }
             IconButton(onClick = onPlayPause, modifier = Modifier.size(56.dp)) {
-                Icon(
-                    imageVector = if (playing) Icons.Outlined.Pause else Icons.Outlined.PlayArrow,
-                    contentDescription = if (playing) "Pause" else "Play"
-                )
+                if (preparing) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(28.dp),
+                        strokeWidth = 3.dp
+                    )
+                } else {
+                    Icon(
+                        imageVector = if (playing) Icons.Outlined.Pause else Icons.Outlined.PlayArrow,
+                        contentDescription = if (playing) "Pause" else "Play"
+                    )
+                }
             }
             IconButton(onClick = onStop) {
                 Icon(Icons.Outlined.Stop, contentDescription = "Stop")
@@ -614,6 +634,18 @@ private fun ReaderControls(
             }
         }
         Spacer(Modifier.height(12.dp))
+        if (preparing) {
+            Text(
+                text = if (state.settings.useCloudTts) {
+                    "Connecting to cloud voice..."
+                } else {
+                    "Preparing speech..."
+                },
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(Modifier.height(8.dp))
+        }
         Text(
             text = "Speed ${"%.2f".format(state.settings.speechRate)}x",
             style = MaterialTheme.typography.labelMedium
@@ -623,6 +655,32 @@ private fun ReaderControls(
             onValueChange = onRateChange,
             valueRange = 0.5f..2.0f
         )
+        HorizontalDivider()
+        Spacer(Modifier.height(10.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "Cloud Voice",
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Text(
+                    text = "Streams paragraph chunks from Rumik with a 150-word request limit.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Spacer(Modifier.width(12.dp))
+            Switch(
+                checked = state.settings.useCloudTts,
+                onCheckedChange = onCloudTtsChanged
+            )
+        }
         HorizontalDivider()
         Spacer(Modifier.height(10.dp))
         Row(
@@ -651,32 +709,44 @@ private fun ReaderControls(
         }
         HorizontalDivider()
         Spacer(Modifier.height(8.dp))
-        ExposedDropdownMenuBox(
-            expanded = voiceMenuExpanded,
-            onExpandedChange = { voiceMenuExpanded = !voiceMenuExpanded }
-        ) {
-            TextField(
-                value = state.voices.firstOrNull { it.voiceName == state.settings.voiceName }?.displayName ?: "System voice",
-                onValueChange = {},
-                readOnly = true,
-                label = { Text("Voice") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = voiceMenuExpanded) },
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth()
+        if (state.settings.useCloudTts) {
+            Text(
+                text = "Rumik Cloud - Muga",
+                style = MaterialTheme.typography.titleSmall
             )
-            ExposedDropdownMenu(
+            Text(
+                text = "Male voice, 30s, Middle Eastern accent, casual conversational pace.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            ExposedDropdownMenuBox(
                 expanded = voiceMenuExpanded,
-                onDismissRequest = { voiceMenuExpanded = false }
+                onExpandedChange = { voiceMenuExpanded = !voiceMenuExpanded }
             ) {
-                state.voices.forEach { voice ->
-                    DropdownMenuItem(
-                        text = { Text(voice.displayName) },
-                        onClick = {
-                            voiceMenuExpanded = false
-                            onVoiceChange(voice.voiceName)
-                        }
-                    )
+                TextField(
+                    value = state.voices.firstOrNull { it.voiceName == state.settings.voiceName }?.displayName ?: "System voice",
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Voice") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = voiceMenuExpanded) },
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+                )
+                ExposedDropdownMenu(
+                    expanded = voiceMenuExpanded,
+                    onDismissRequest = { voiceMenuExpanded = false }
+                ) {
+                    state.voices.forEach { voice ->
+                        DropdownMenuItem(
+                            text = { Text(voice.displayName) },
+                            onClick = {
+                                voiceMenuExpanded = false
+                                onVoiceChange(voice.voiceName)
+                            }
+                        )
+                    }
                 }
             }
         }

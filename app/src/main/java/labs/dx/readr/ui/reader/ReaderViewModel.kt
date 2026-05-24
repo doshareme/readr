@@ -168,6 +168,7 @@ class ReaderViewModel @Inject constructor(
         viewModelScope.launch {
             when (val playbackState = _uiState.value.playbackState) {
                 is PlaybackState.Playing -> narrationController.pause()
+                is PlaybackState.Preparing -> narrationController.stop()
                 is PlaybackState.Paused,
                 is PlaybackState.Stopped -> narrationController.resume()
                 is PlaybackState.Completed -> narrationController.play(0)
@@ -217,6 +218,18 @@ class ReaderViewModel @Inject constructor(
                     localeTag = voice.localeTag
                 )
             )
+        }
+    }
+
+    fun updateCloudTts(enabled: Boolean) {
+        viewModelScope.launch {
+            val updatedSettings = _uiState.value.settings.copy(
+                useCloudTts = enabled,
+                voiceName = null,
+                localeTag = null
+            )
+            narrationController.updateSettings(updatedSettings)
+            _uiState.value = _uiState.value.copy(settings = updatedSettings)
         }
     }
 

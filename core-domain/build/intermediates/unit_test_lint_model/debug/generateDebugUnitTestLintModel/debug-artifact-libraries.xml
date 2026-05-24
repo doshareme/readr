@@ -1,9 +1,9 @@
 <libraries>
   <library
       name=":@@:core-domain::debug"
-      jars="/Users/ved/.gradle/caches/8.13/transforms/6b33856bc3166fcf5be53834afcbd07a/transformed/out/jars/classes.jar:/Users/ved/.gradle/caches/8.13/transforms/6b33856bc3166fcf5be53834afcbd07a/transformed/out/jars/libs/R.jar"
+      jars="/Users/ved/.gradle/caches/8.13/transforms/3fd51c86b2346bc0173345dd5a625fc6/transformed/out/jars/classes.jar:/Users/ved/.gradle/caches/8.13/transforms/3fd51c86b2346bc0173345dd5a625fc6/transformed/out/jars/libs/R.jar"
       resolved="Readr:core-domain:unspecified"
-      folder="/Users/ved/.gradle/caches/8.13/transforms/6b33856bc3166fcf5be53834afcbd07a/transformed/out"
+      folder="/Users/ved/.gradle/caches/8.13/transforms/3fd51c86b2346bc0173345dd5a625fc6/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

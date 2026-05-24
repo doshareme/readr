@@ -1,18 +1,18 @@
 [
     {
         "merged": "labs.dx.core.data.core-data-release-23:/layout-v21/notification_action_tombstone.xml",
-        "source": "labs.dx.core.data.core-data-core-1.17.0-2:/layout-v21/notification_action_tombstone.xml"
+        "source": "labs.dx.core.data.core-data-core-1.17.0-7:/layout-v21/notification_action_tombstone.xml"
     },
     {
         "merged": "labs.dx.core.data.core-data-release-23:/layout-v21/notification_template_custom_big.xml",
-        "source": "labs.dx.core.data.core-data-core-1.17.0-2:/layout-v21/notification_template_custom_big.xml"
+        "source": "labs.dx.core.data.core-data-core-1.17.0-7:/layout-v21/notification_template_custom_big.xml"
     },
     {
         "merged": "labs.dx.core.data.core-data-release-23:/layout-v21/notification_action.xml",
-        "source": "labs.dx.core.data.core-data-core-1.17.0-2:/layout-v21/notification_action.xml"
+        "source": "labs.dx.core.data.core-data-core-1.17.0-7:/layout-v21/notification_action.xml"
     },
     {
         "merged": "labs.dx.core.data.core-data-release-23:/layout-v21/notification_template_icon_group.xml",
-        "source": "labs.dx.core.data.core-data-core-1.17.0-2:/layout-v21/notification_template_icon_group.xml"
+        "source": "labs.dx.core.data.core-data-core-1.17.0-7:/layout-v21/notification_template_icon_group.xml"
     }
 ]

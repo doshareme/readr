@@ -106,7 +106,7 @@ class NarrationPlaybackController @Inject constructor(
             val speakResult = ttsEngine.speak(TtsSpeakRequest(chunk.utteranceId, chunk.text))
             if (speakResult.isFailure) {
                 _playbackState.value = PlaybackState.Error(
-                    ReaderError.Unknown("Unable to start TTS", speakResult.exceptionOrNull())
+                    speakResult.exceptionOrNull().toReaderError("Unable to start TTS")
                 )
             } else {
                 prefetchNextParagraph(chunk.words.last().globalWordIndex + 1)
@@ -164,11 +164,34 @@ class NarrationPlaybackController @Inject constructor(
     }
 
     override suspend fun updateSettings(settings: NarrationSettings) {
-        _settings.value = settings
+        val previousSettings = _settings.value
+        val engineModeChanged = previousSettings.useCloudTts != settings.useCloudTts
         val result = ttsEngine.applySettings(settings)
         if (result.isFailure) {
-            _playbackState.value = PlaybackState.Error(ReaderError.UnsupportedLanguage)
+            _settings.value = previousSettings
+            _playbackState.value = PlaybackState.Error(
+                result.exceptionOrNull().toReaderError("Unable to update Text-to-Speech settings")
+            )
+            return
         }
+        _settings.value = settings
+        if (engineModeChanged) {
+            when (val initResult = ttsEngine.initialize()) {
+                is TtsEngineInitResult.Failure -> {
+                    _playbackState.value = PlaybackState.Error(initResult.error)
+                }
+                is TtsEngineInitResult.Success -> {
+                    supportsRangeCallbacks = initResult.supportsRangeCallbacks
+                    _availableVoices.value = initResult.voices
+                }
+            }
+        }
+    }
+
+    private fun Throwable?.toReaderError(prefix: String): ReaderError.Unknown {
+        val detail = this?.message?.takeIf { it.isNotBlank() }
+        val message = if (detail == null) prefix else "$prefix: $detail"
+        return ReaderError.Unknown(message, this)
     }
 
     override fun release() {

@@ -13,7 +13,8 @@ data class NarrationSettings(
     val speechRate: Float = 1.0f,
     val voiceName: String? = null,
     val localeTag: String? = null,
-    val researchPaperMode: Boolean = false
+    val researchPaperMode: Boolean = false,
+    val useCloudTts: Boolean = false
 )
 
 data class NarrationVoice(

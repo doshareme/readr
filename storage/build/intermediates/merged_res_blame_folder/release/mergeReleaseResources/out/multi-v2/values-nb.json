@@ -4,7 +4,7 @@
             "outputFile": "labs.dx.storage-release-20:/values-nb/values-nb.xml",
             "map": [
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/2f7c7657d8a172ae9c1d0e81727f1441/transformed/core-1.17.0/res/values-nb/values-nb.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/6bc9acb0a91cd1f4c6569f2014f1470c/transformed/core-1.17.0/res/values-nb/values-nb.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -19,7 +19,7 @@
             "outputFile": "labs.dx.storage-mergeReleaseResources-18:/values-nb/values-nb.xml",
             "map": [
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/2f7c7657d8a172ae9c1d0e81727f1441/transformed/core-1.17.0/res/values-nb/values-nb.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/6bc9acb0a91cd1f4c6569f2014f1470c/transformed/core-1.17.0/res/values-nb/values-nb.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

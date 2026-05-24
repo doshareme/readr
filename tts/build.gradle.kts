@@ -5,6 +5,31 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+fun readSecretValue(vararg keys: String): String {
+    val environmentValue = keys.firstNotNullOfOrNull { key ->
+        System.getenv(key)?.takeIf { it.isNotBlank() }
+    }
+    if (environmentValue != null) return environmentValue
+
+    val files = listOf("local.properties", ".env", ",env")
+    val values = files
+        .map(rootProject::file)
+        .filter { it.exists() }
+        .flatMap { it.readLines() }
+        .mapNotNull { line ->
+            val trimmed = line.trim()
+            if (trimmed.isBlank() || trimmed.startsWith("#") || !trimmed.contains("=")) {
+                null
+            } else {
+                val key = trimmed.substringBefore("=").trim()
+                val value = trimmed.substringAfter("=").trim().trim('"', '\'')
+                key to value
+            }
+        }
+        .toMap()
+    return keys.firstNotNullOfOrNull { key -> values[key]?.takeIf { it.isNotBlank() } }.orEmpty()
+}
+
 android {
     namespace = "labs.dx.tts"
     compileSdk = 36
@@ -12,6 +37,11 @@ android {
     defaultConfig {
         minSdk = 26
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField(
+            "String",
+            "RUMIK_API_KEY",
+            "\"${readSecretValue("RUMIK_API_KEY", "SILK_API_KEY").replace("\\", "\\\\").replace("\"", "\\\"")}\""
+        )
     }
 
     compileOptions {
@@ -22,6 +52,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -30,6 +64,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.okhttp)
 
     ksp(libs.hilt.compiler)
 }

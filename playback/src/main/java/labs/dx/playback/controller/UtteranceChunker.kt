@@ -10,7 +10,8 @@ internal data class UtteranceChunk(
 )
 
 internal class UtteranceChunker(
-    private val maxChars: Int = 600
+    private val maxChars: Int = 600,
+    private val maxWords: Int = 150
 ) {
 
     suspend fun buildChunk(
@@ -31,6 +32,7 @@ internal class UtteranceChunker(
             if (words.isNotEmpty() && word.paragraphIndex != targetParagraphIndex) {
                 break
             }
+            if (words.size >= maxWords) break
             if (words.isNotEmpty() && candidateLength > maxChars) break
             words += word
             totalChars = candidateLength

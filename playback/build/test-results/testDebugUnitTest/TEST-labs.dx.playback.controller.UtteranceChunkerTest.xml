@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="labs.dx.playback.controller.UtteranceChunkerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-24T09:06:25.002Z" hostname="DoShares-MacBook-Air.local" time="0.224">
+<testsuite name="labs.dx.playback.controller.UtteranceChunkerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-24T10:44:50.696Z" hostname="DoShares-MacBook-Air.local" time="0.1">
   <properties/>
-  <testcase name="playbackController_updatesCurrentWord_fromRangeCallbacks" classname="labs.dx.playback.controller.UtteranceChunkerTest" time="0.217"/>
-  <testcase name="buildChunk_keepsSentenceBoundaries_whenPossible" classname="labs.dx.playback.controller.UtteranceChunkerTest" time="0.006"/>
+  <testcase name="playbackController_updatesCurrentWord_fromRangeCallbacks" classname="labs.dx.playback.controller.UtteranceChunkerTest" time="0.097"/>
+  <testcase name="buildChunk_keepsSentenceBoundaries_whenPossible" classname="labs.dx.playback.controller.UtteranceChunkerTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -4,7 +4,7 @@
             "outputFile": "labs.dx.pdf-release-27:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/2f7c7657d8a172ae9c1d0e81727f1441/transformed/core-1.17.0/res/values-en-rAU/values-en-rAU.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/6bc9acb0a91cd1f4c6569f2014f1470c/transformed/core-1.17.0/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/72d2fa3371c654c6e4d34a259074f28e/transformed/appcompat-1.6.1/res/values-en-rAU/values-en-rAU.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/425b114d5fc3df2fd49363ea29401aeb/transformed/appcompat-1.6.1/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -43,7 +43,7 @@
             "outputFile": "labs.dx.pdf-mergeReleaseResources-25:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/2f7c7657d8a172ae9c1d0e81727f1441/transformed/core-1.17.0/res/values-en-rAU/values-en-rAU.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/6bc9acb0a91cd1f4c6569f2014f1470c/transformed/core-1.17.0/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -60,7 +60,7 @@
                     }
                 },
                 {
-                    "source": "/Users/ved/.gradle/caches/8.13/transforms/72d2fa3371c654c6e4d34a259074f28e/transformed/appcompat-1.6.1/res/values-en-rAU/values-en-rAU.xml",
+                    "source": "/Users/ved/.gradle/caches/8.13/transforms/425b114d5fc3df2fd49363ea29401aeb/transformed/appcompat-1.6.1/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
