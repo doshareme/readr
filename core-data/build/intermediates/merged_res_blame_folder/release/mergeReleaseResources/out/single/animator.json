@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "labs.dx.core.data.core-data-release-23:/animator/fragment_fade_enter.xml",
+        "source": "labs.dx.core.data.core-data-fragment-1.5.1-14:/animator/fragment_fade_enter.xml"
+    },
+    {
+        "merged": "labs.dx.core.data.core-data-release-23:/animator/fragment_open_enter.xml",
+        "source": "labs.dx.core.data.core-data-fragment-1.5.1-14:/animator/fragment_open_enter.xml"
+    },
+    {
+        "merged": "labs.dx.core.data.core-data-release-23:/animator/fragment_close_enter.xml",
+        "source": "labs.dx.core.data.core-data-fragment-1.5.1-14:/animator/fragment_close_enter.xml"
+    },
+    {
+        "merged": "labs.dx.core.data.core-data-release-23:/animator/fragment_open_exit.xml",
+        "source": "labs.dx.core.data.core-data-fragment-1.5.1-14:/animator/fragment_open_exit.xml"
+    },
+    {
+        "merged": "labs.dx.core.data.core-data-release-23:/animator/fragment_close_exit.xml",
+        "source": "labs.dx.core.data.core-data-fragment-1.5.1-14:/animator/fragment_close_exit.xml"
+    },
+    {
+        "merged": "labs.dx.core.data.core-data-release-23:/animator/fragment_fade_exit.xml",
+        "source": "labs.dx.core.data.core-data-fragment-1.5.1-14:/animator/fragment_fade_exit.xml"
+    }
+]

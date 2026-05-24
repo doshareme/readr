@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "labs.dx.pdf-release-27:/layout-v21/notification_action_tombstone.xml",
+        "source": "labs.dx.pdf-core-1.17.0-3:/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "labs.dx.pdf-release-27:/layout-v21/notification_template_icon_group.xml",
+        "source": "labs.dx.pdf-core-1.17.0-3:/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "labs.dx.pdf-release-27:/layout-v21/notification_action.xml",
+        "source": "labs.dx.pdf-core-1.17.0-3:/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "labs.dx.pdf-release-27:/layout-v21/notification_template_custom_big.xml",
+        "source": "labs.dx.pdf-core-1.17.0-3:/layout-v21/notification_template_custom_big.xml"
+    }
+]

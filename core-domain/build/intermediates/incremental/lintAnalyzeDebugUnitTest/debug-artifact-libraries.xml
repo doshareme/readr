@@ -1,0 +1,31 @@
+<libraries>
+  <library
+      name=":@@:core-domain::debug"
+      jars="/Users/ved/.gradle/caches/8.13/transforms/6b33856bc3166fcf5be53834afcbd07a/transformed/out/jars/classes.jar:/Users/ved/.gradle/caches/8.13/transforms/6b33856bc3166fcf5be53834afcbd07a/transformed/out/jars/libs/R.jar"
+      resolved="Readr:core-domain:unspecified"
+      folder="/Users/ved/.gradle/caches/8.13/transforms/6b33856bc3166fcf5be53834afcbd07a/transformed/out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
+      name="org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0@jar"
+      jars="/Users/ved/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.9.0/9beade4c1c1569e4f36cbd2c37e02e3e41502601/kotlinx-coroutines-core-jvm-1.9.0.jar"
+      resolved="org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0"/>
+  <library
+      name="org.jetbrains.kotlin:kotlin-stdlib:2.0.21@jar"
+      jars="/Users/ved/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.0.21/618b539767b4899b4660a83006e052b63f1db551/kotlin-stdlib-2.0.21.jar"
+      resolved="org.jetbrains.kotlin:kotlin-stdlib:2.0.21"/>
+  <library
+      name="javax.inject:javax.inject:1@jar"
+      jars="/Users/ved/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+      resolved="javax.inject:javax.inject:1"/>
+  <library
+      name="org.jetbrains:annotations:23.0.0@jar"
+      jars="/Users/ved/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/23.0.0/8cc20c07506ec18e0834947b84a864bfc094484e/annotations-23.0.0.jar"
+      resolved="org.jetbrains:annotations:23.0.0"/>
+</libraries>

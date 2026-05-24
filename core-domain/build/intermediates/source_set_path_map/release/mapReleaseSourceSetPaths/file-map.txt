@@ -1,0 +1,7 @@
+labs.dx.core.domain.core-domain-pngs-0 /Users/ved/AndroidStudioProjects/Readr/core-domain/build/generated/res/pngs/release
+labs.dx.core.domain.core-domain-resValues-1 /Users/ved/AndroidStudioProjects/Readr/core-domain/build/generated/res/resValues/release
+labs.dx.core.domain.core-domain-mergeReleaseResources-2 /Users/ved/AndroidStudioProjects/Readr/core-domain/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
+labs.dx.core.domain.core-domain-mergeReleaseResources-3 /Users/ved/AndroidStudioProjects/Readr/core-domain/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+labs.dx.core.domain.core-domain-release-4 /Users/ved/AndroidStudioProjects/Readr/core-domain/build/intermediates/merged_res/release/mergeReleaseResources
+labs.dx.core.domain.core-domain-main-5 /Users/ved/AndroidStudioProjects/Readr/core-domain/src/main/res
+labs.dx.core.domain.core-domain-release-6 /Users/ved/AndroidStudioProjects/Readr/core-domain/src/release/res

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.11.2" type="incidents">
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX extension function `String.toUri` instead?">
+        <fix-replace
+            description="Replace with the toUri extension function"
+            family="Replace with the toUri extension function"
+            robot="true"
+            independent="true"
+            oldString="Uri.parse(uriString)"
+            replacement="uriString.toUri()"
+            reformat="value"
+            imports="androidx.core.net.toUri"
+            priority="0">
+            <range
+                file="${:storage*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/storage/repository/AndroidStorageRepository.kt"
+                startOffset="904"
+                endOffset="924"/>
+        </fix-replace>
+        <location
+            file="${:storage*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/storage/repository/AndroidStorageRepository.kt"
+            line="25"
+            column="23"
+            startOffset="904"
+            endLine="25"
+            endColumn="43"
+            endOffset="924"/>
+    </incident>
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX extension function `String.toUri` instead?">
+        <fix-replace
+            description="Replace with the toUri extension function"
+            family="Replace with the toUri extension function"
+            robot="true"
+            independent="true"
+            oldString="Uri.parse(uriString)"
+            replacement="uriString.toUri()"
+            reformat="value"
+            imports="androidx.core.net.toUri"
+            priority="0">
+            <range
+                file="${:storage*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/storage/repository/AndroidStorageRepository.kt"
+                startOffset="1419"
+                endOffset="1439"/>
+        </fix-replace>
+        <location
+            file="${:storage*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/storage/repository/AndroidStorageRepository.kt"
+            line="37"
+            column="19"
+            startOffset="1419"
+            endLine="37"
+            endColumn="39"
+            endOffset="1439"/>
+    </incident>
+
+</incidents>

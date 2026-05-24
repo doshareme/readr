@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml:2:13-83
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml:2:13-83
+	package
+		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml
+	xmlns:android
+		ADDED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml:2:23-81
+uses-sdk
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml reason: use-sdk injection requested
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml
+INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml
+	android:targetSdkVersion
+		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml
+	android:minSdkVersion
+		INJECTED from /Users/ved/AndroidStudioProjects/Readr/core-ui/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest6416511102041733177.xml

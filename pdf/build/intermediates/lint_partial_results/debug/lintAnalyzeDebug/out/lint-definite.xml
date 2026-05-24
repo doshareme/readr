@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.11.2" type="incidents">
+
+    <incident
+        id="TrustAllX509TrustManager"
+        severity="warning"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15to18/1.72/32faf4d74dbc333fb3a7a6c80c30417cf888fc7a/bcpkix-jdk15to18-1.72.jar"/>
+    </incident>
+
+    <incident
+        id="TrustAllX509TrustManager"
+        severity="warning"
+        message="`checkClientTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15to18/1.72/32faf4d74dbc333fb3a7a6c80c30417cf888fc7a/bcpkix-jdk15to18-1.72.jar"/>
+    </incident>
+
+    <incident
+        id="TrustAllX509TrustManager"
+        severity="warning"
+        message="`checkServerTrusted` is empty, which could cause insecure network traffic due to trusting arbitrary TLS/SSL certificates presented by peers">
+        <location
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15to18/1.72/32faf4d74dbc333fb3a7a6c80c30417cf888fc7a/bcpkix-jdk15to18-1.72.jar"/>
+    </incident>
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX function `createBitmap` instead?">
+        <fix-replace
+            description="Replace with the createBitmap function"
+            family="Replace with the createBitmap function"
+            robot="true"
+            independent="true"
+            oldString="Bitmap.createBitmap(&#xA;            safeTargetWidth,&#xA;            (TextPaginator.PageHeight * scale).toInt().coerceAtLeast(1),&#xA;            Bitmap.Config.ARGB_8888&#xA;        )"
+            replacement="createBitmap(safeTargetWidth, (TextPaginator.PageHeight * scale).toInt().coerceAtLeast(1))"
+            reformat="value"
+            imports="androidx.core.graphics.createBitmap"
+            priority="0">
+            <range
+                file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/GenericDocumentSessions.kt"
+                startOffset="1826"
+                endOffset="1994"/>
+        </fix-replace>
+        <location
+            file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/GenericDocumentSessions.kt"
+            line="49"
+            column="22"
+            startOffset="1826"
+            endLine="53"
+            endColumn="10"
+            endOffset="1994"/>
+    </incident>
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX extension function `Bitmap.scale` instead?">
+        <fix-replace
+            description="Replace with the scale extension function"
+            family="Replace with the scale extension function"
+            robot="true"
+            independent="true"
+            oldString="Bitmap.createScaledBitmap(source, safeTargetWidth, targetHeight, true)"
+            replacement="source.scale(safeTargetWidth, targetHeight)"
+            reformat="value"
+            imports="androidx.core.graphics.scale"
+            priority="0">
+            <range
+                file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/GenericDocumentSessions.kt"
+                startOffset="4835"
+                endOffset="4905"/>
+        </fix-replace>
+        <location
+            file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/GenericDocumentSessions.kt"
+            line="123"
+            column="16"
+            startOffset="4835"
+            endLine="123"
+            endColumn="86"
+            endOffset="4905"/>
+    </incident>
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX function `createBitmap` instead?">
+        <fix-replace
+            description="Replace with the createBitmap function"
+            family="Replace with the createBitmap function"
+            robot="true"
+            independent="true"
+            oldString="Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)"
+            replacement="createBitmap(width, height)"
+            reformat="value"
+            imports="androidx.core.graphics.createBitmap"
+            priority="0">
+            <range
+                file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/GenericDocumentSessions.kt"
+                startOffset="16155"
+                endOffset="16214"/>
+        </fix-replace>
+        <location
+            file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/GenericDocumentSessions.kt"
+            line="434"
+            column="18"
+            startOffset="16155"
+            endLine="434"
+            endColumn="77"
+            endOffset="16214"/>
+    </incident>
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX extension function `String.toUri` instead?">
+        <fix-replace
+            description="Replace with the toUri extension function"
+            family="Replace with the toUri extension function"
+            robot="true"
+            independent="true"
+            oldString="Uri.parse(document.uriString)"
+            replacement="document.uriString.toUri()"
+            reformat="value"
+            imports="androidx.core.net.toUri"
+            priority="0">
+            <range
+                file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/PdfBoxDocumentSession.kt"
+                startOffset="2201"
+                endOffset="2230"/>
+        </fix-replace>
+        <location
+            file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/PdfBoxDocumentSession.kt"
+            line="55"
+            column="19"
+            startOffset="2201"
+            endLine="55"
+            endColumn="48"
+            endOffset="2230"/>
+    </incident>
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX extension function `String.toUri` instead?">
+        <fix-replace
+            description="Replace with the toUri extension function"
+            family="Replace with the toUri extension function"
+            robot="true"
+            independent="true"
+            oldString="Uri.parse(document.uriString)"
+            replacement="document.uriString.toUri()"
+            reformat="value"
+            imports="androidx.core.net.toUri"
+            priority="0">
+            <range
+                file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/PdfBoxDocumentSession.kt"
+                startOffset="4491"
+                endOffset="4520"/>
+        </fix-replace>
+        <location
+            file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/PdfBoxDocumentSession.kt"
+            line="115"
+            column="19"
+            startOffset="4491"
+            endLine="115"
+            endColumn="48"
+            endOffset="4520"/>
+    </incident>
+
+    <incident
+        id="UseKtx"
+        severity="warning"
+        message="Use the KTX function `createBitmap` instead?">
+        <fix-replace
+            description="Replace with the createBitmap function"
+            family="Replace with the createBitmap function"
+            robot="true"
+            independent="true"
+            oldString="Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888)"
+            replacement="createBitmap(bitmapWidth, bitmapHeight)"
+            reformat="value"
+            imports="androidx.core.graphics.createBitmap"
+            priority="0">
+            <range
+                file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/PdfBoxDocumentSession.kt"
+                startOffset="10413"
+                endOffset="10484"/>
+        </fix-replace>
+        <location
+            file="${:pdf*debug*MAIN*sourceProvider*0*javaDir*0}/labs/dx/pdf/session/PdfBoxDocumentSession.kt"
+            line="253"
+            column="17"
+            startOffset="10413"
+            endLine="253"
+            endColumn="88"
+            endOffset="10484"/>
+    </incident>
+
+</incidents>

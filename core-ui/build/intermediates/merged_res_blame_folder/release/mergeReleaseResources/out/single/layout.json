@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "labs.dx.core.ui.core-ui-release-43:/layout/custom_dialog.xml",
+        "source": "labs.dx.core.ui.core-ui-core-1.17.0-9:/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "labs.dx.core.ui.core-ui-release-43:/layout/notification_template_part_time.xml",
+        "source": "labs.dx.core.ui.core-ui-core-1.17.0-9:/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "labs.dx.core.ui.core-ui-release-43:/layout/notification_template_part_chronometer.xml",
+        "source": "labs.dx.core.ui.core-ui-core-1.17.0-9:/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "labs.dx.core.ui.core-ui-release-43:/layout/ime_base_split_test_activity.xml",
+        "source": "labs.dx.core.ui.core-ui-core-1.17.0-9:/layout/ime_base_split_test_activity.xml"
+    },
+    {
+        "merged": "labs.dx.core.ui.core-ui-release-43:/layout/ime_secondary_split_test_activity.xml",
+        "source": "labs.dx.core.ui.core-ui-core-1.17.0-9:/layout/ime_secondary_split_test_activity.xml"
+    }
+]
